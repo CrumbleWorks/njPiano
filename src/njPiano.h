@@ -1,10 +1,7 @@
 #ifndef NJPIANO_H_
 #define NJPIANO_H_
 
-typedef enum {
-	false = 0,
-	true = !false
-};
+#include <stdbool.h>
 
 typedef enum Note {
 	Cl = 261,
@@ -42,7 +39,7 @@ typedef struct Dynamite {
 } Dynamite;
 
 
-int init(int bpm, int enableSound);
+int init(int bpm, bool enableSound);
 int kill();
 
 int append(Note, Duration);
