@@ -65,30 +65,30 @@ int kill();
 /* ======================================================================== */
 
 /*
- * Appends a single Note measuring the desired Duration to the music piece
+ * Appends a single Note measuring the desired Duration to the music piece.
  */
 int append(Note, Duration);
 
 /*
- * Removes the last Note that was added to the music piece
+ * Removes the last Note that was added to the music piece.
  */
 int remove();
 
 /*
  * Removes all notes and leaves an empty music piece as if the init method had
- * been called
+ * been called.
  */
 int clear();
 
 /*
- * Returns the music piece as of this point in time
+ * Returns the music piece as of this point in time.
  */
 const Piecelet* getMusicPiece();
 
 /* ======================================================================== */
 
 /*
- * Plays a music piece
+ * Plays a music piece.
  */
 int honeyTheyrePlayingOurSong(const Piecelet*);
 
