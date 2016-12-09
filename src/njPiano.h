@@ -47,6 +47,11 @@ typedef struct Piecelet {
 	int octave;
 } Piecelet;
 
+typedef struct MusicPiece {
+	Piecelet* piecelets;
+	int length;
+} MusicPiece;
+
 /* ======================================================================== */
 
 /*
@@ -54,8 +59,9 @@ typedef struct Piecelet {
  *
  * bmp         -> the desired Beats Per Minute
  * enableSound -> if the lib should output sounds while creating a music piece
+ * blockSize   -> amount of piecelets per block
  */
-int init(int bpm, bool enableSound = false);
+int init(int bpm, bool enableSound, int blockSize);
 
 /*
  * Releases allocated resources and cleans up.
@@ -83,13 +89,13 @@ int clear();
 /*
  * Returns the music piece as of this point in time.
  */
-const Piecelet* getMusicPiece();
+MusicPiece getMusicPiece();
 
 /* ======================================================================== */
 
 /*
  * Plays a music piece.
  */
-int honeyTheyrePlayingOurSong(const Piecelet*);
+int honeyTheyrePlayingOurSong(const MusicPiece*);
 
 #endif /* NJPIANO_H_ */
