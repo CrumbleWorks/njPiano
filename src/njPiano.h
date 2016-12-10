@@ -12,7 +12,7 @@
 
 #include <stdbool.h>
 
-typedef enum Note {
+typedef enum njp_Note {
 	Cl = 261,
 	Cis = 277,
 	D = 293,
@@ -26,9 +26,9 @@ typedef enum Note {
 	Ais = 466,
 	B = 493,
 	Ch = 522
-} Note;
+} njp_Note;
 
-typedef enum Duration {
+typedef enum njp_Duration {
 	Semibreve = 10000,
 	Minim = 5000,
 	Crotchet = 2500,
@@ -39,18 +39,18 @@ typedef enum Duration {
 	Viertel = Crotchet,
 	Achtel = Quaver,
 	Sechzehntel = Semiquaver
-} Duration;
+} njp_Duration;
 
-typedef struct Piecelet {
-	Note note;
-	Duration duration;
+typedef struct njp_Piecelet {
+	njp_Note note;
+	njp_Duration duration;
 	int octave;
-} Piecelet;
+} njp_Piecelet;
 
-typedef struct MusicPiece {
-	Piecelet* piecelets;
+typedef struct njp_MusicPiece {
+	njp_Piecelet* piecelets;
 	int length;
-} MusicPiece;
+} njp_MusicPiece;
 
 /* ======================================================================== */
 
@@ -60,42 +60,78 @@ typedef struct MusicPiece {
  * bmp         -> the desired Beats Per Minute
  * enableSound -> if the lib should output sounds while creating a music piece
  * blockSize   -> amount of piecelets per block
+ *
+ * Errorcodes:
+ * 1 -> Memory Allocation failed
  */
-int init(int bpm, bool enableSound, int blockSize);
+int njp_init(int bpm, bool enableSound, int blockSize);
 
 /*
  * Releases allocated resources and cleans up.
  */
-int kill();
+void njp_kill();
 
 /* ======================================================================== */
 
 /*
- * Appends a single Note measuring the desired Duration to the music piece.
+ * Raises the octave used for notes by one
+ *
+ * Highest octave: 7
+ *
+ * Errorcodes:
+ * 3 -> Octave already highest possible
  */
-int append(Note, Duration);
+int njp_raiseOctave();
+
+/*
+ * Lowers the octave used for notes by one
+ *
+ * Lowest octave: 1
+ *
+ * Errorcodes:
+ * 4 -> Octave already lowest possible
+ */
+int njp_lowerOctave();
+
+/*
+ * Appends a single Note measuring the desired Duration to the music piece.
+ *
+ * Errorcodes:
+ * 1 -> Memory Allocation failed
+ * 5 -> Could not play piecelet
+ */
+int njp_append(njp_Note, njp_Duration);
 
 /*
  * Removes the last Note that was added to the music piece.
+ *
+ * Errorcodes:
+ * 2 -> Nothing to remove
  */
-int remove();
+int njp_remove();
 
 /*
  * Removes all notes and leaves an empty music piece as if the init method had
  * been called.
+ *
+ * Errorcodes:
+ * 1 -> Memory Allocation failed
  */
-int clear();
+int njp_clear();
 
 /*
  * Returns the music piece as of this point in time.
  */
-MusicPiece getMusicPiece();
+njp_MusicPiece njp_getMusicPiece();
 
 /* ======================================================================== */
 
 /*
  * Plays a music piece.
+ *
+ * Errorcodes:
+ * 5 -> Could not play
  */
-int honeyTheyrePlayingOurSong(const MusicPiece*);
+int njp_honeyTheyrePlayingOurSong(njp_MusicPiece*);
 
 #endif /* NJPIANO_H_ */
